@@ -1,0 +1,139 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Big+Shoulders+Text|Cinzel|Lobster|Orbitron|Pacifico|Playfair+Display+SC|Rajdhani|Srisakdi|Teko&display=swap');
+// Variables
+@import 'variables';
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+@import '~admin-lte/dist/css/AdminLTE.css';
+@import '~admin-lte/dist/css/skins/_all-skins.css';
+body {
+    overflow-x: hidden;
+}
+
+.navbar .nav-link {
+    font-size: 14px;
+    text-transform: uppercase;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.navbar .nav-item.active {
+    border-left: #444 3px solid;
+}
+
+.carousel-item {
+    height: 450px;
+}
+
+.carousel-image-1 {
+    background: url('images/bg_image.jpg');
+    background-size: cover;
+}
+
+.carousel-image-2 {
+    background: url('images/bg_image2.jpeg');
+    background-size: cover;
+}
+
+.carousel-image-3 {
+    background: url('images/bg_image4.jpeg');
+    background-size: cover;
+}
+
+#home-heading {
+    position: relative;
+    min-height: 200px;
+    background: url('images/bg_image.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    text-align: center;
+    color: #fff;
+}
+
+.head-icon {
+    font-size: 3em;
+}
+
+.bg-cyan {
+    background-color: $cyan;
+}
+
+.bg-khaki {
+    background-color: $khaki;
+}
+
+.bg-plum {
+    background-color: $plum;
+}
+
+.bg-olive {
+    background-color: $olive;
+}
+
+.bg-deeppink {
+    background-color: $deeppink;
+}
+
+.bg-paleviolet {
+    background-color: $paleviolet;
+}
+
+.bg-darkgreen {
+    background-color: $darkgreen;
+}
+
+.about-img {
+    max-width: 450px;
+    height: 300px;
+    border-radius: 50%;
+}
+
+.count-bg-img {
+    background: url('images/bg_image.jpg');
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.contact-bg {
+    width: 450px;
+    border-radius: 10%;
+}
+
+footer {
+    background-color: $dimgray;
+}
+
+.header-list {
+    font-family: 'Lobster', cursive;
+}
+
+.header-create {
+    font-family: 'Pacifico', cursive;
+}
+
+.header-edit {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.mu-font {
+    font-family: 'Lobster';
+}
+
+.logo-font {
+    font-family: 'Lobster';
+}
+
+.products-item {
+    font-family: 'Pacifico';
+}
+
+.login-bg-img {
+    background-image: url('images/bg_image.jpg');
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
