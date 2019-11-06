@@ -4,12 +4,12 @@
 	</button>
 	<ul class="dropdown-menu" role="menu">
 		<li>
-			<a href="{{route('administrator.edit',$admin->id)}}" class="btn btn-default dropdown-item ">
+			<a href="{{route('role.edit',$role->id)}}" class="btn btn-default dropdown-item ">
 				<i class="far fa-edit"></i> edit
 			</a>
 		</li>
 		<li>
-			<form method="POST" action="">
+			<form method="post" action="">
 				@method('delete')
 				@csrf
 				<button type="submit" class="btn btn-default dropdown-item delete-btn">

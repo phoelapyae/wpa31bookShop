@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddBookIdColumnToOrders extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class AddBookIdColumnToOrders extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->bigInteger('bookId')->after('shop_id');
-
-            $table->foreign('bookId')->references('id')->on('books');
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->jsonb('permissions');   // jsonb deletes duplication
+            $table->timestamps();
         });
     }
 
@@ -27,8 +29,6 @@ class AddBookIdColumnToOrders extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('roles');
     }
 }

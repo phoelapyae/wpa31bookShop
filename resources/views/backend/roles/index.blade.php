@@ -2,17 +2,17 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <h1 class="header-list">Admin List</h1>
+        <h1 class="header-list">Role List</h1>
         <div class="col-12">
-            <a href="{{route('administrator.create')}}" class="btn btn-success">+ Add New Author</a>
+            <a href="{{route('publisher.create')}}" class="btn btn-success">+ Add New Publisher</a>
             <br>
             <br>
-            <table id="administrators-table" class="table table-bordered">
+            <table id="roles-table" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
+                        <th>Slug</th>
+                        <th>Permissions</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -24,22 +24,23 @@
 @push('scripts')
 <script>
     $(function(){
-        $('#administrators-table').DataTable({
+        $('#roles-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('administrator.data') !!}',
+            ajax: '{!! route('role.data') !!}',
             columns: [
                 {
                     data: 'name',
                     name: 'name'
                 },
                 {
-                    data: 'email',
-                    name: 'email'
+                    data: 'slug',
+                    name: 'slug'
                 },
                 {
-                    data: 'role',
-                    name: 'role'
+                    data: 'permissions',
+                    name: 'permissions',
+                    with: '20%'
                 },
                 {
                     data: 'option',

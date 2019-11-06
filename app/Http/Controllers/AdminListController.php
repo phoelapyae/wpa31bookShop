@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use App\Admin;
+use App\Role;
+use DB;
 
 class AdminListController extends Controller
 {
@@ -20,8 +23,13 @@ class AdminListController extends Controller
     public function anyData(){
         $model = Admin::query();
         return \DataTables::eloquent($model)
+        ->addColumn('role',function($model){
+            $data = $model->roles->first()->name;
+            return $data;
+        })
         ->addColumn('option',function(Admin $admin){
-            return view('backend.adminlists.option',compact('admin'));
+            $roles = Role::select('id','name')->get();
+            return view('backend.adminlists.option',compact('admin','roles'));
         })
         ->rawColumns(['option'])
         ->toJson();
@@ -34,7 +42,8 @@ class AdminListController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::select('name','id')->get();
+        return view('backend.adminlists.create',compact('roles'));
     }
 
     /**
@@ -45,7 +54,16 @@ class AdminListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'is_super' => 0,
+            'is_delete' => 0
+        ];
+        $admin = Admin::create($data);
+        $admin->roles()->attach($request->get('roles'));
+        return redirect()->route('administrator.index');
     }
 
     /**
@@ -67,7 +85,9 @@ class AdminListController extends Controller
      */
     public function edit($id)
     {
-        //
+        $roles = Role::select('name','id')->get();
+        $admin = Admin::findOrFail($id);
+        return view('backend.adminlists.edit',compact('roles','admin'));
     }
 
     /**
@@ -79,7 +99,18 @@ class AdminListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role_id = $request->input('roles');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        if(isset($password) && !empty($password)){
+            $userupdate = ['name' => $name, 'email' => $email, 'password' => bcrypt($password)];
+        } else {
+            $userupdate = ['name' => $name, 'email' => $email];
+        }
+        Admin::findOrFail($id)->update($userupdate);
+        DB::table('role_admins')->where('admin_id',$id)->update(['role_id' => $role_id]);
+        return redirect()->route('administrator.index');
     }
 
     /**

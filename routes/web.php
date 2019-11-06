@@ -55,6 +55,10 @@ Route::group(['prefix' => config("backend.frontend_link"), 'middleware' => 'auth
 Route::group(['prefix' => config("backend.backend_link"), 'middleware' => 'auth:web,admin'], function(){
     Route::get('/admin', 'AdminController@index');
 
+    // Route for Roles
+    Route::get('/role/data','RoleController@anyData')->name('role.data');
+    Route::resource('role','RoleController');
+
     // Routes for Book
     Route::get('/book/data','BookController@anyData')->name('book.data');
     Route::resource('book','BookController'); 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Author;
+use Auth;
 
 class AuthorController extends Controller
 {
@@ -37,7 +38,12 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('backend.authors.create');
+        if(Auth::user()->hasPermission('create-author')){
+            return view('backend.authors.create');
+        } else {
+            return redirect()->route('author.index');
+        }
+        
     }
 
     /**

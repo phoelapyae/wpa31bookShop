@@ -99,7 +99,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{route('administrator.index')}}" class="mu-font"><i class="far fa-circle"></i> Administrators </a></li>
+            <li><a href="{{route('administrator.index')}}" class="mu-font"><i class="far fa-circle"></i> Admins </a></li>
+            <li><a href="{{route('role.index')}}" class="mu-font"><i class="far fa-circle"></i> Roles </a></li>
             <li>
              <a class="mu-font" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
