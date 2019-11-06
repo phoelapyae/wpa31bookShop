@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Yajra\Datatables\Datatables;
 use App\City;
+use Auth;
 
 class CityController extends Controller
 {
@@ -34,9 +35,14 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('backend.cities.create');
+        if(Auth::user()->hasPermission('create-city')){
+            return view('backend.cities.create');
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to creat a new one!');
+            return redirect()->route('city.index');
+        }
     }
 
     /**
@@ -74,10 +80,16 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $city = City::findOrFail($id);
-        return view('backend.cities.edit',compact('city'));
+    public function edit(Request $request, $id)
+    {   
+        if(Auth::user()->hasPermission('create-city')){
+            $city = City::findOrFail($id);
+            return view('backend.cities.edit',compact('city'));
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to edit this one!');
+            return redirect()->route('city.index');
+        }
+        
     }
 
     /**
@@ -107,8 +119,12 @@ class CityController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        City::findOrFail($id)->delete();
-        $request->session()->flash('alert-danger','City was deleted sucessfully.');
+        if(Auth::user()->hasPermission('create-city')){
+            City::findOrFail($id)->delete();
+            $request->session()->flash('alert-danger','City was deleted sucessfully.');
+        }else{
+            $request->session()->flash('alert-danger','Worry, you dont have permission to delete this item!');
+        }
         return redirect()->route('city.index');
     }
 }

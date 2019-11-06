@@ -7,6 +7,7 @@ use Yajra\Datatables\Datatables;
 use App\Admin;
 use App\Role;
 use DB;
+use Auth;
 
 class AdminListController extends Controller
 {
@@ -83,11 +84,16 @@ class AdminListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $roles = Role::select('name','id')->get();
-        $admin = Admin::findOrFail($id);
-        return view('backend.adminlists.edit',compact('roles','admin'));
+        if(Auth::user()->hasPermission('edit-admin')){
+            $roles = Role::select('name','id')->get();
+            $admin = Admin::findOrFail($id);
+            return view('backend.adminlists.edit',compact('roles','admin'));
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to edit this item!');
+            return redirect()->route('role.index');
+        }
     }
 
     /**

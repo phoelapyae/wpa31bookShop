@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Yajra\Datatables\Datatables;
 use App\Publisher;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -35,9 +36,14 @@ class PublisherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('backend.publishers.create');
+        if(Auth::user()->hasPermission('create-publisher')){
+            return view('backend.publishers.create');
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to create a new one!');
+            return redirect()->route('publisher.index');
+        }
     }
 
     /**
@@ -75,10 +81,16 @@ class PublisherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $publisher = Publisher::findOrFail($id);
-        return view('backend.publishers.edit',compact('publisher'));
+        if(Auth::user()->hasPermission('update-publisher')){
+            $publisher = Publisher::findOrFail($id);
+            return view('backend.publishers.edit',compact('publisher'));
+        }else{
+            $request->session()->flash('alert-success','Sorry, you dont have permission to edit this one!');
+            return redirect()->route('publisher.index');
+        }
+        
     }
 
     /**
@@ -108,8 +120,12 @@ class PublisherController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        Publisher::findOrFail($id)->delete();
-        $request->session()->flash('alert-danger','Publisher was deleted sucessfully.');
+        if(Auth::user()->hasPermission('delete-publisher')){
+            Publisher::findOrFail($id)->delete();
+            $request->session()->flash('alert-danger','Publisher was deleted sucessfully.');
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to delete this one!');
+        }
         return redirect()->route('publisher.index');
     }
 }

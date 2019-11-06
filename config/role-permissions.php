@@ -17,5 +17,14 @@
         ],
         'Shop' => [
             'view-shop','create-shop','update-shop','delete-shop'
+        ],
+        'Feedback' => [
+            'delete-feedback'
+        ],
+        'Role' => [
+            'view-role','create-role','update-role','delete-role'
+        ],
+        'Admin' => [
+            'view-admin','create-admin','update-admin','delete-admin'
         ]
     ];

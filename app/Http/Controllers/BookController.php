@@ -9,6 +9,7 @@ use App\Book;
 use App\Author;
 use App\Category;
 use App\Publisher;
+use Auth;
 
 class BookController extends Controller
 {
@@ -50,13 +51,17 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $authors = Author::pluck('authorname','id');
-        $categories = Category::pluck('categoryname','id');
-        $publishers = Publisher::pluck('publishername','id');
-
-        return view('backend.books.create',compact('authors','categories','publishers'));
+        if(Auth::user()->hasPermission('create-product')){
+            $authors = Author::pluck('authorname','id');
+            $categories = Category::pluck('categoryname','id');
+            $publishers = Publisher::pluck('publishername','id');
+            return view('backend.books.create',compact('authors','categories','publishers'));
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to create new item.');
+            return redirect()->route('book.index');
+        }
     }
 
     /**
@@ -117,14 +122,18 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $book = Book::findOrFail($id);
-        $authors = Author::pluck('authorname','id');
-        $categories = Category::pluck('categoryname','id');
-        $publishers = Publisher::pluck('publishername','id');
-
-        return view('backend.books.edit',compact('book','authors','categories','publishers'));
+        if(Auth::user()->hasPermission('update-product')){
+            $book = Book::findOrFail($id);
+            $authors = Author::pluck('authorname','id');
+            $categories = Category::pluck('categoryname','id');
+            $publishers = Publisher::pluck('publishername','id');
+            return view('backend.books.edit',compact('book','authors','categories','publishers'));
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to edit this item.');
+            return redirect()->route('book.index');
+        }
     }
 
     /**
@@ -166,8 +175,12 @@ class BookController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        Book::findOrFail($id)->delete();
-        $request->session()->flash('alert-danger','Book was deleted sucessfully.');
+        if(Auth::user()->hasPermission('delete-product')){
+            Book::findOrFail($id)->delete();
+            $request->session()->flash('alert-danger','Book was deleted sucessfully.');
+        }else{
+            $request->session()->flash('alert-danger','Sorry you dont have permission to delete this item.');
+        }
         return redirect()->route('book.index');
     }
 }

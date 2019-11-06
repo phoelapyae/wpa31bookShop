@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Category;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -33,9 +34,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('backend.categories.create');
+        if(Auth::user()->hasPermission('create-category')){
+            return view('backend.categories.create');
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to creat a new.');
+            return redirect()->route('category.index');
+        }
     }
 
     /**
@@ -74,10 +80,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $category = Category::findOrFail($id);
-        return view('backend.categories.edit',compact('category'));
+        if(Auth::user()->hasPermission('update-category')){
+            $category = Category::findOrFail($id);
+            return view('backend.categories.edit',compact('category'));
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to edit this item.');
+            return redirect()->route('category.index');
+        }
     }
 
     /**
@@ -107,8 +118,13 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        Category::findOrFail($id)->delete();
-        $request->session()->flash('alert-danger','Category was deleted sucessfully.');
+        if(Auth::user()->hasPermission('delete-category')){
+            Category::findOrFail($id)->delete();
+            $request->session()->flash('alert-danger','Category was deleted sucessfully.');
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to delete this item.');
+        }
+        
         return redirect()->route('category.index');
     }
 }

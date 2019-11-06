@@ -81,11 +81,16 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $author = Author::findOrFail($id);
+        if(Auth::user()->hasPermission('update-author')){
+            $author = Author::findOrFail($id);
+            return view('backend.authors.edit',compact('author'));
+        } else {
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to edit this item!');
+            return redirect()->route('author.index');
+        }
         
-        return view('backend.authors.edit',compact('author'));
     }
 
     /**
@@ -115,8 +120,12 @@ class AuthorController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        Author::findOrFail($id)->delete();
-        $request->session()->flash('alert-danger','Author was deleted sucessfully.');
+        if(Auth::user()->hasPermission('delete-author')){
+            Author::findOrFail($id)->delete();
+            $request->session()->flash('alert-danger','Author was deleted sucessfully.');
+        }else{
+            $request->session()->flash('alert-danger','Sorry, you dont have permission to delete this item');
+        }
         return redirect()->route('author.index');
     }
 }

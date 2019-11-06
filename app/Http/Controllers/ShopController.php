@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Yajra\Datatables\Datatables;
 use App\Shop;
-
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -34,9 +34,14 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('backend.shops.create');
+        if(Auth::user()->hasPermission('create-shop')){
+            return view('backend.shops.create');
+        }else{
+            $request->session()->flash('alert-danger','Sorry you dont have permission to creat a new one!');
+            return redirect()->route('shop.index');
+        }
     }
 
     /**
@@ -74,10 +79,16 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $shop = Shop::findOrFail($id);
-        return view('backend.shops.edit',compact('shop'));
+        if(Auth::user()->hasPermission('create-shop')){
+            $shop = Shop::findOrFail($id);
+            return view('backend.shops.edit',compact('shop'));
+        }else{
+            $request->session()->flash('alert-danger','Sorry you dont have permission to edit this item!');
+            return redirect()->route('shop.index');
+        }
+        
     }
 
     /**

@@ -92,27 +92,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li><a href="{{route('voucher.index')}}" class="mu-font"><i class="far fa-circle"></i> See vouncher</a></li>
           </ul>
         </li>
-        <li class="treeview">
-          <a href="#" class="pt-3 mu-font"><i class="fas fa-cogs"></i><span> Setting</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{route('administrator.index')}}" class="mu-font"><i class="far fa-circle"></i> Admins </a></li>
-            <li><a href="{{route('role.index')}}" class="mu-font"><i class="far fa-circle"></i> Roles </a></li>
-            <li>
-             <a class="mu-font" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-                  <i class="far fa-circle"></i> {{ __('Logout') }}
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-              </a>
-              </li>
-          </ul>
-        </li>
+        @if(Auth::user()->hasPermission('view-admin'))
+          <li class="treeview">
+            <a href="#" class="pt-3 mu-font"><i class="fas fa-cogs"></i><span> Setting</span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{route('administrator.index')}}" class="mu-font"><i class="far fa-circle"></i> Admins </a></li>
+              @if(Auth::user()->hasPermission('view-role'))
+                <li><a href="{{route('role.index')}}" class="mu-font"><i class="far fa-circle"></i> Roles </a></li>
+              @endif
+              <li>
+              <a class="mu-font" href="{{ route('logout') }}"
+                  onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
+                    <i class="far fa-circle"></i> {{ __('Logout') }}
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      @csrf
+                  </form>
+                </a>
+                </li>
+            </ul>
+          </li>
+        @endif
       </ul>
       <!-- /.sidebar-menu -->
     </section>

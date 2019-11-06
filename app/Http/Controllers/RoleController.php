@@ -98,8 +98,8 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name' => 'required|min:3|unique:roles',
-            'slug' => 'required|min:3|unique:roles',
+            'name' => 'required|min:3',
+            'slug' => 'required|min:3',
             'permissions' => 'required|array'
         ]);
         Role::findOrFail($id)->update($request->all());
