@@ -7,5 +7,7 @@ use App\Order;
 
 class ReportController extends Controller
 {
-    //
+    public function index(){
+        return view('backend.reports.index');
+    }
 }

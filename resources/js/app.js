@@ -2,13 +2,19 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import routes from './routes';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
 Vue.use(VueRouter);
+Vue.use(VueAxios, axios);
 
 // window.axios = require('axios');
 // window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('line-chart-component', require('./components/LineChartComponent.vue').default);
+Vue.component('bar-chart-component', require('./components/BarChartComponent.vue').default);
+
 
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'

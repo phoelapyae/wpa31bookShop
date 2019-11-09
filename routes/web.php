@@ -95,6 +95,9 @@ Route::group(['prefix' => config("backend.backend_link"), 'middleware' => 'auth:
     Route::get('/feedback/data','FeedbackAdminController@anyData')->name('feedback.data');
     Route::resource('feedback','FeedbackAdminController');
 
+    // Routes for Report chart
+    Route::get('/reports','ReportController@index');
+
     // Routes for voucher
     Route::get('/voucher/pdf','VoucherController@downloadPDF');
     Route::resource('voucher','VoucherController');

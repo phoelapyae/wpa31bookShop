@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li><a href="{{route('city.index')}}" class="pt-0 mu-font"><i class="fas fa-city"></i><span> Cities </span></a></li>
         <li><a href="{{route('shop.index')}}" class="pt-0 mu-font"><i class="fas fa-store"></i><span> Shops </span></a></li>
         <li><a href="{{route('feedback.index')}}" class="pt-0 mu-font"><i class="far fa-comment-dots"></i><span> Feedbacks </span></a></li>
-        <li><a href="#" class="pt-0 mu-font"><i class="fas fa-envelope"></i><span> Books Report </span></a></li>
+        <li><a href="/backend/reports" class="pt-0 mu-font"><i class="fas fa-envelope"></i><span> Book Orders Report </span></a></li>
         <!-- Exam Results -->
         <li class="treeview">
           <a href="#" class="pt-3 mu-font"><i class="fas fa-print"></i><span> Voucher</span>

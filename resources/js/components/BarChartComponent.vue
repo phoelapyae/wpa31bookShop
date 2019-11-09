@@ -1,8 +1,8 @@
 <script>
-import { Line, Bar } from 'vue-chartjs';
+import { Line, Bar, Pie } from 'vue-chartjs';
 
 export default {
-   extends: Line,
+   extends: Bar,
    mounted() {
          let uri = 'http://localhost:8000/backend/orders/data';
          let Dates = new Array();
