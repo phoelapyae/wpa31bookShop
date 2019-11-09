@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <h1 class="header-list">Role List</h1>
         <div class="col-12">
-            <a href="{{route('publisher.create')}}" class="btn btn-success">+ Add New Publisher</a>
+            <a href="{{route('role.create')}}" class="btn btn-success">+ Add New Role</a>
             <br>
             <br>
             <table id="roles-table" class="table table-bordered">

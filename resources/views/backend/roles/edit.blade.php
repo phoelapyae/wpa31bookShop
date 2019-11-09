@@ -17,9 +17,15 @@
                     @foreach($permissions as $key=>$per)
                         <h5>{{ucfirst($key)}}</h5>
                         @foreach($per as $p)
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="permissions[{{$p}}]" id="inlineCheckbox1" value="true">{{$p}}
-                            </label>
+                            @if(isset($role->permissions[$p]))
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checked="checked" name="permissions[{{$p}}]" id="inlineCheckbox1" value="true">{{$p}}
+                                </label>
+                            @else
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="permissions[{{$p}}]" id="inlineCheckbox1" value="true">{{$p}}
+                                </label>
+                            @endif
                         @endforeach
                     @endforeach
                     <div>

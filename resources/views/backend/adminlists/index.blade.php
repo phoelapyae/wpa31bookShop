@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <h1 class="header-list">Admin List</h1>
         <div class="col-12">
-            <a href="{{route('administrator.create')}}" class="btn btn-success">+ Add New Author</a>
+            <a href="{{route('administrator.create')}}" class="btn btn-success">+ Add New Admin</a>
             <br>
             <br>
             <table id="administrators-table" class="table table-bordered">
